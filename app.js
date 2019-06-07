@@ -1,7 +1,8 @@
 const express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
-	server = require('http').Server(app)
+	server = require('http').Server(app),
+	path = require('path');
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 
@@ -11,6 +12,8 @@ server.listen(2000, function(){
 
 var io = require('socket.io')(server);
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/socket', express.static(path.join(__dirname, 'node_modules', 'socket.io-client', 'dist')));
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,application/json");
